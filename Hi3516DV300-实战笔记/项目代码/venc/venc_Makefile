@@ -1,0 +1,19 @@
+# Hisilicon Hi35xx sample Makefile
+
+include ../Makefile.param
+
+# --- SVP/NNIE (S2-2) ---
+NNIE_COMM := ../svp/common
+NNIE_SOFT := ../svp/nnie/sample_nnie_software
+CFLAGS += -I$(NNIE_COMM) -I$(NNIE_SOFT)
+MPI_LIBS += $(REL_LIB)/libive.a $(REL_LIB)/libmd.a $(REL_LIB)/libnnie.a
+NNIE_EXTRA_SRCS := $(NNIE_COMM)/sample_comm_svp.c $(NNIE_COMM)/sample_comm_nnie.c \
+    $(NNIE_COMM)/sample_comm_ive.c $(NNIE_SOFT)/sample_svp_nnie_software.c
+
+SMP_SRCS := $(wildcard *.c) $(NNIE_EXTRA_SRCS)
+TARGET := sample_venc rtsp_server osd_test
+
+TARGET_PATH := $(PWD)
+
+# compile linux or HuaweiLite
+include $(PWD)/../$(ARM_ARCH)_$(OSTYPE).mak
